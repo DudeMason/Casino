@@ -190,10 +190,10 @@ def user_change
   end
 end
 
-intro
-
 def exit
   puts "------------------"
   puts "--SEE YOU SOON!!--"
   puts "------------------"
 end
+
+intro
