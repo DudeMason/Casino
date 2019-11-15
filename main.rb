@@ -1,10 +1,7 @@
 require 'colorize'
 require 'pry'
 
-# blackjack
-# poker
 # dice
-# slots
 # roulette
 
 # CLASS
@@ -16,49 +13,47 @@ class Player
     @money = money
   end
   def moneycheck
-    puts "You currently have $#{@money}"
+    puts "--You have $#{@money}!--"
   end
-  def game
-    bet_amount.to_i == 0
-      puts #error message
-      game
-    elsif bet_amount == "0"
-      intro
-    elsif bet_amount.capitalize == "Back"
-      puts "Good luck, then!"
-      intro
-    elsif bet_amount.capitalize == "Menu"
-      puts #something
-      intro
-    elsif bet_amount.to_i < 5
-      puts "You need at least $5 to play blackjack"
-      game
-    elsif bet_amount.to_i > @money
-      puts "That's more than you have, buddy"
-      puts "Try a different ammount"
-      game
-
+  def betloss(number)
+    @money -= number
+  end
+  def betwin
+    @money #something... I have no idea how gamble winnings work
+  end
+  def welcome
+    puts "-------------------"
+    puts "--WELCOME #{@name.upcase}!--"
+    puts "-------------------"
   end
 end
 #CLASS
 
+@gamblers = []
 
 def intro
- puts "Welcome to the Casino"
- puts "What is your name?"
- @player = gets.strip.capitalize
- @player = Player.new(@player.to_s, 300)
- puts "-------------------"
- puts "WELCOME #{@player.name.upcase}!"
- @player.moneycheck
- puts "What would you like to play?"
- puts "1) Blackjack"
- puts "2) Craps"
- puts "3) Slots"
- puts "4) Peace Out"
- puts "------------------"
- choice = gets.strip.to_i
- case choice
+  puts "----------------------"
+  puts "Welcome to the Casino!"
+  puts "What is your name?"
+  @player = gets.strip.capitalize
+  @player = Player.new(@player, 500)
+  @gamblers << @player
+  @player.welcome
+  menu
+end
+
+def menu
+  @player.moneycheck
+  puts "-------------------"
+  puts "What would you like to do?"
+  puts "1) Play Blackjack"
+  puts "2) Play Craps"
+  puts "3) Play Slots"
+  puts "4) Change user"
+  puts "5) Peace Out"
+  puts "------------------"
+  @choice = gets.strip.to_i
+ case @choice
  when 1
    blackjack
  when 2
@@ -66,6 +61,8 @@ def intro
  when 3
    slots
  when 4
+   user_change
+ when 5
    exit
  else
    puts "------------"
@@ -75,65 +72,128 @@ def intro
  end
 end
 
-def blackjack
-  puts " "
-  puts "This is blackjack, dawg."
-  puts " "
-  blackjack_gets
-end
-
-def blackjack_gets
+def bet
   puts "-------------------------------"
   puts "How much would you like to bet?"
   puts "Type 'Back' or 'Menu' to leave"
   puts "-------------------------------"
   bet_amount = gets.strip
-  if
-  @player.game
-elsif bet_amount.to_i <= @money && bet_amount.to_i >= 5
-  go_to_game
-else
-  puts "Invalid entry, please try again!"
-end
+  if bet_amount == "0"
+    puts "------------------------------"
+    puts "No bets equals no game, buddy!"
+    menu
+  elsif bet_amount.capitalize == "Back"
+    puts "-------------"
+    puts "Best of luck!"
+    menu
+  elsif bet_amount.capitalize == "Menu"
+    puts "-------------"
+    puts "Best of luck!"
+    menu
+  elsif bet_amount.capitalize == "Return"
+    puts "-------------"
+    puts "Best of luck!"
+    menu
+  elsif bet_amount.to_i == 0
+    puts "-----------------------------------------"
+    puts "Your bettin' money, bub! Not your mother."
+    bet
+  elsif bet_amount.to_i < 5
+    puts "You need to bet least $5 to play blackjack"
+    bet
+  elsif bet_amount.to_i > @player.money
+    puts "That's more than you have, buddy!"
+    puts "Try a different ammount"
+    bet
+  elsif bet_amount.to_i <= @player.money
+    direction
+  elsif bet_amount.to_i >= 5
+    direction
+  else
+    puts "Invalid entry, please try again!"
+    bet
+  end
 end
 
-def blackjack_game
-  puts "Good job!"
- # Make game
-end
-
-def craps
-  puts " "
-  puts "This is blackjack, dawg."
-  puts " "
-  craps_gets
-end
-
-def craps_gets
-  @player.game
-end
-
-def craps_game
-  puts "Good job!"
- # Make game
+def direction
+  if @choice == 1
+    blackjack_game
+  elsif @choice == 2
+    craps_game
+  elsif @choice == 3
+    slots_game
+  else
+    menu
+  end
 end
 
 def blackjack
-  puts " "
-  puts "This is blackjack, dawg."
-  puts " "
-  blackjack_gets
+  puts "^^^^^^^^^^^^^^^^^^^^^^^^"
+  puts "This is blackjack, dawg!"
+  puts "^^^^^^^^^^^^^^^^^^^^^^^^"
+  bet
 end
-
-def blackjack_gets
-  @player.game
-end
-
 def blackjack_game
-  puts "Good job!"
+  # puts "Good job B!"
+  # @player.betloss(20)
  # Make game
+ menu
 end
 
+def craps
+  puts "^^^^^^^^^^^^^^^^^^^^"
+  puts "This is craps, dawg!"
+  puts "^^^^^^^^^^^^^^^^^^^^"
+  bet
+end
+def craps_game
+  # puts "Good job C!"
+  # @player.betloss(40)
+ # Make game
+ menu
+end
 
+def slots
+  puts "^^^^^^^^^^^^^^^^^^^^"
+  puts "This is slots, dawg!"
+  puts "^^^^^^^^^^^^^^^^^^^^"
+  bet
+end
+def slots_game
+  # puts "Good job S!"
+  # @player.betloss(60)
+ # Make game
+ menu
+end
+
+def user_change
+    puts "-------------------------"
+    puts "Who will be playing next?"
+    puts "-------------------------"
+    @name = gets.strip.capitalize
+    @gamblers.each {|person|
+      if @name == person.name
+        @player = person
+        @player.welcome
+        menu
+      end}
+  if @name == @player.name
+    puts "------------------------------"
+    puts "You're already playing, silly!"
+    user_change
+  else
+    @name = Player.new(@name, 500)
+    @gamblers << @name
+    @player = @name
+    @player.welcome
+    menu
+  end
+end
 
 intro
+
+def exit
+  puts "------------------"
+  puts "--SEE YOU SOON!!--"
+  puts "------------------"
+end
