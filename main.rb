@@ -1,6 +1,9 @@
 require 'colorize'
 require 'pry'
 require_relative 'dice'
+require_relative 'deck'
+require_relative 'card'
+
 # dice
 # roulette
 
@@ -159,7 +162,7 @@ def highlow
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   puts "••••••••••••••••••••".colorize(:light_blue)
   puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
-  puts "This is blackjack, dawg!"
+  puts "This is High|Low, dawg!"
   puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
   puts "••••••••••••••••••••".colorize(:light_blue)
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
@@ -311,6 +314,12 @@ def user_change
     puts "Who will be playing next?"
     puts "-------------------------"
     @name = gets.strip.capitalize
+    @gamblers.each {|person|
+      if @name == person.name
+        @player = person
+        @player.welcome
+        menu
+      end}
   if @name == @player.name
     puts "------------------------------"
     puts "You're already playing, silly!"
