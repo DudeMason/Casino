@@ -16,10 +16,16 @@ class Player
     puts "--You have $#{@money}!--"
   end
   def betloss(number)
-    @money -= number
+    @money -= number.to_i
   end
-  def betwin
-    @money #something... I have no idea how gamble winnings work
+  def bethalf(number)
+    @money -= (number.to_i / 2)
+  end
+  def betwin(number)
+    @money += (number.to_i * 2) #I have no idea how gamble winnings work
+  end
+  def slotwin(number)
+    @money += (number.to_i * 10)
   end
   def welcome
     puts "-------------------"
@@ -36,10 +42,27 @@ def intro
   puts "Welcome to the Casino!"
   puts "What is your name?"
   @player = gets.strip.capitalize
-  @player = Player.new(@player, 500)
+  depositmoney
+end
+def depositmoney
+  puts "How much would you like to deposit?"
+  deposit = gets.strip.to_i
+  if deposit == 0
+    puts "---------------------------------"
+    puts "You can only deposit money, silly!"
+    puts "---------------------------------"
+    depositmoney
+  elsif deposit < 5
+    puts "-----------------------------------------"
+    puts "You'll need at least $5 to play any game."
+    puts "-----------------------------------------"
+    depositmoney
+  elsif deposit >= 5
+  @player = Player.new(@player, deposit)
   @gamblers << @player
   @player.welcome
   menu
+  end
 end
 
 def menu
@@ -75,39 +98,40 @@ end
 def bet
   puts "-------------------------------"
   puts "How much would you like to bet?"
+  @player.moneycheck
   puts "Type 'Back' or 'Menu' to leave"
   puts "-------------------------------"
-  bet_amount = gets.strip
-  if bet_amount == "0"
+  @bet_amount = gets.strip
+  if @bet_amount == "0"
     puts "------------------------------"
     puts "No bets equals no game, buddy!"
     menu
-  elsif bet_amount.capitalize == "Back"
+  elsif @bet_amount.capitalize == "Back"
     puts "-------------"
     puts "Best of luck!"
     menu
-  elsif bet_amount.capitalize == "Menu"
+  elsif @bet_amount.capitalize == "Menu"
     puts "-------------"
     puts "Best of luck!"
     menu
-  elsif bet_amount.capitalize == "Return"
+  elsif @bet_amount.capitalize == "Return"
     puts "-------------"
     puts "Best of luck!"
     menu
-  elsif bet_amount.to_i == 0
+  elsif @bet_amount.to_i == 0
     puts "-----------------------------------------"
     puts "Your bettin' money, bub! Not your mother."
     bet
-  elsif bet_amount.to_i < 5
+  elsif @bet_amount.to_i < 5
     puts "You need to bet least $5 to play blackjack"
     bet
-  elsif bet_amount.to_i > @player.money
+  elsif @bet_amount.to_i > @player.money
     puts "That's more than you have, buddy!"
     puts "Try a different ammount"
     bet
-  elsif bet_amount.to_i <= @player.money
+  elsif @bet_amount.to_i <= @player.money
     direction
-  elsif bet_amount.to_i >= 5
+  elsif @bet_amount.to_i >= 5
     direction
   else
     puts "Invalid entry, please try again!"
@@ -134,10 +158,27 @@ def blackjack
   bet
 end
 def blackjack_game
-  puts "Good job B!"
-  @player.betloss(20)
+  puts "Hit 1 to lose!"
+  puts "Hit 2 to win!"
+  winlose = gets.strip.to_i
+  case winlose
+  when 1
+    @player.betloss(@bet_amount)
+    puts "-----------------"
+    puts "Sorry, you lost!!"
+    puts "-----------------"
+    menu
+  when 2
+    @player.betwin(@bet_amount)
+    puts "--------------"
+    puts "Yay! You won!!"
+    puts "--------------"
+    menu
+  else
+    puts "Invalid entry, please try again!"
+    direction
+  end
  # Make game
- menu
 end
 
 def craps
@@ -147,10 +188,27 @@ def craps
   bet
 end
 def craps_game
-  puts "Good job C!"
-  @player.betloss(40)
+  puts "Hit 1 to lose!"
+  puts "Hit 2 to win!"
+  winlose = gets.strip.to_i
+  case winlose
+  when 1
+    @player.betloss(@bet_amount)
+    puts "-----------------"
+    puts "Sorry, you lost!!"
+    puts "-----------------"
+    menu
+  when 2
+    @player.betwin(@bet_amount)
+    puts "--------------"
+    puts "Yay! You won!!"
+    puts "--------------"
+    menu
+  else
+    puts "Invalid entry, please try again!"
+    direction
+  end
  # Make game
- menu
 end
 
 def slots
@@ -160,10 +218,58 @@ def slots
   bet
 end
 def slots_game
-  puts "Good job S!"
-  @player.betloss(60)
- # Make game
- menu
+  puts "Hit enter to pull the lever!"
+  lever = gets.strip
+  @slot1 = ["§", "¶", "•", "£", "¢", "∞"]
+  @slot2 = ["§", "¶", "•", "£", "¢", "∞"]
+  @slot3 = ["§", "¶", "•", "£", "¢", "∞"]
+  @bar = []
+  @bar1 = []
+  @bar2 = []
+  @bar << @slot1.sample
+  @bar1 << @slot2.sample
+  @bar2 << @slot3.sample
+  puts @bar[0]
+  puts @bar1[0]
+  puts @bar2[0]
+  if @bar[0] == @bar1[0] && @bar1[0] != @bar2[0]
+    puts "------------------"
+    puts "You got your money back!"
+    @bar.clear
+    @bar1.clear
+    @bar2.clear
+    bet
+  elsif @bar[0] != @bar1[0] && @bar1[0] == @bar2[0]
+    puts "------------------"
+    puts "You got your money back!"
+    @bar.clear
+    @bar1.clear
+    @bar2.clear
+    bet
+  elsif @bar[0] == @bar2[0] && @bar2[0] != @bar1[0]
+    puts "------------------"
+    puts "You got your money back!"
+    @bar.clear
+    @bar1.clear
+    @bar2.clear
+    bet
+  elsif @bar[0] == @bar1[0] && @bar1[0] == @bar2[0]
+    puts "-------------------"
+    puts "YOU FRIGGIN WON!!!!"
+    @player.slotwin(@bet_amount)
+    @bar.clear
+    @bar1.clear
+    @bar2.clear
+    bet
+  else
+    puts "----------"
+    puts "Awe... Too bad!!"
+    @player.betloss(@bet_amount)
+    @bar.clear
+    @bar1.clear
+    @bar2.clear
+    bet
+  end
 end
 
 def user_change
@@ -183,11 +289,8 @@ def user_change
       menu
     end}
   if @name != @player.name
-    @name = Player.new(@name, 500)
-    @gamblers << @name
     @player = @name
-    @player.welcome
-    menu
+    depositmoney
   end
 end
 
