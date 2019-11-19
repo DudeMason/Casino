@@ -134,8 +134,8 @@ def blackjack
   bet
 end
 def blackjack_game
-  # puts "Good job B!"
-  # @player.betloss(20)
+  puts "Good job B!"
+  @player.betloss(20)
  # Make game
  menu
 end
@@ -147,8 +147,8 @@ def craps
   bet
 end
 def craps_game
-  # puts "Good job C!"
-  # @player.betloss(40)
+  puts "Good job C!"
+  @player.betloss(40)
  # Make game
  menu
 end
@@ -160,8 +160,8 @@ def slots
   bet
 end
 def slots_game
-  # puts "Good job S!"
-  # @player.betloss(60)
+  puts "Good job S!"
+  @player.betloss(60)
  # Make game
  menu
 end
@@ -171,17 +171,18 @@ def user_change
     puts "Who will be playing next?"
     puts "-------------------------"
     @name = gets.strip.capitalize
-    @gamblers.each {|person|
-      if @name == person.name
-        @player = person
-        @player.welcome
-        menu
-      end}
   if @name == @player.name
     puts "------------------------------"
     puts "You're already playing, silly!"
     user_change
-  else
+  end
+    @gamblers.each {|person|
+    if @name == person.name
+      @player = person
+      @player.welcome
+      menu
+    end}
+  if @name != @player.name
     @name = Player.new(@name, 500)
     @gamblers << @name
     @player = @name
