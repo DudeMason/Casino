@@ -105,40 +105,39 @@ end
 def bet
   puts "-------------------------------"
   puts "How much would you like to bet?"
-  @player.moneycheck
   puts "Type 'Back' or 'Menu' to leave"
   puts "-------------------------------"
-  @bet_amount = gets.strip
-  if @bet_amount == "0"
+  bet_amount = gets.strip
+  if bet_amount == "0"
     puts "------------------------------"
     puts "No bets equals no game, buddy!"
     menu
-  elsif @bet_amount.capitalize == "Back"
+  elsif bet_amount.capitalize == "Back"
     puts "-------------"
     puts "Best of luck!"
     menu
-  elsif @bet_amount.capitalize == "Menu"
+  elsif bet_amount.capitalize == "Menu"
     puts "-------------"
     puts "Best of luck!"
     menu
-  elsif @bet_amount.capitalize == "Return"
+  elsif bet_amount.capitalize == "Return"
     puts "-------------"
     puts "Best of luck!"
     menu
-  elsif @bet_amount.to_i == 0
+  elsif bet_amount.to_i == 0
     puts "-----------------------------------------"
     puts "Your bettin' money, bub! Not your mother."
     bet
-  elsif @bet_amount.to_i < 5
+  elsif bet_amount.to_i < 5
     puts "You need to bet least $5 to play blackjack"
     bet
-  elsif @bet_amount.to_i > @player.money
+  elsif bet_amount.to_i > @player.money
     puts "That's more than you have, buddy!"
     puts "Try a different ammount"
     bet
-  elsif @bet_amount.to_i <= @player.money
+  elsif bet_amount.to_i <= @player.money
     direction
-  elsif @bet_amount.to_i >= 5
+  elsif bet_amount.to_i >= 5
     direction
   else
     puts "Invalid entry, please try again!"
