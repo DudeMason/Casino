@@ -2,6 +2,8 @@ require 'colorize'
 require 'pry'
 require_relative 'deck'
 require_relative 'card'
+require_relative 'dice'
+
 
 # dice
 # roulette
@@ -52,7 +54,7 @@ def menu
   puts "-------------------"
   puts "What would you like to do?"
   puts "1) Play Blackjack"
-  puts "2) Play 3 Card Poker"
+  puts "2) Play Guess The Total"
   puts "3) Play Slots"
   puts "4) Change user"
   puts "5) Peace Out"
@@ -62,7 +64,7 @@ def menu
  when 1
    blackjack
  when 2
-   three_card_poker
+   guess_the_total
  when 3
    slots
  when 4
@@ -124,7 +126,7 @@ def direction
   if @choice == 1
     blackjack_game
   elsif @choice == 2
-    three_card_poker_game
+    guess_the_total_game
   elsif @choice == 3
     slots_game
   else
@@ -145,16 +147,32 @@ def blackjack_game
  menu
 end
 # --------------------------
-def three_card_poker
+def guess_the_total
   puts "^^^^^^^^^^^^^^^^^^^^"
-  puts "This is 3 Card Poker, dawg!"
+  puts "This is Guess The Total, dawg!"
   puts "^^^^^^^^^^^^^^^^^^^^"
   bet
 end
-def three_card_poker_game
-  # puts "Good job 3!"
-  # @player.betloss(40)
- # Make game
+def guess_the_total_game
+  puts "Take a LUCKY guess!"
+  person = gets.strip
+
+  dice = Dice.new
+  dice.show_sum
+
+  if person == dice.show_sum
+    puts "^^^^^^^^^^^^^^^^^^^^"
+    puts " WINNER WINNER! CHICKEN DINNER!"
+    puts "^^^^^^^^^^^^^^^^^^^^"
+  else
+    puts "^^^^^^^^^^^^^^^^^^^^"
+    puts "Awww! TOO BAD!"
+    puts "^^^^^^^^^^^^^^^^^^^^"
+    bet
+  end
+
+
+
  menu
 end
 
