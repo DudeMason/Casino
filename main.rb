@@ -24,6 +24,9 @@ class Player
   def betwin(number)
     @money += (number.to_i * 2) #I have no idea how gamble winnings work
   end
+  def guesswin(number)
+    @money += (number.to_i * 4)
+  end
   def slotwin(number)
     @money += (number.to_i * 10)
   end
@@ -69,9 +72,9 @@ def menu
   @player.moneycheck
   puts "-------------------"
   puts "What would you like to do?"
-  puts "1) Play Blackjack"
-  puts "2) Play Craps"
-  puts "3) Play Slots"
+  puts "1) Play Blackjack!"
+  puts "2) Guess-the-Total!"
+  puts "3) Play Slots!"
   puts "4) Change user"
   puts "5) Peace Out"
   puts "------------------"
@@ -80,7 +83,7 @@ def menu
  when 1
    blackjack
  when 2
-   craps
+   guess_the_total
  when 3
    slots
  when 4
@@ -143,7 +146,7 @@ def direction
   if @choice == 1
     blackjack_game
   elsif @choice == 2
-    craps_game
+    guess_the_total_game
   elsif @choice == 3
     slots_game
   else
@@ -185,38 +188,34 @@ def blackjack_game
  # Make game
 end
 
-def craps
+def guess_the_total
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   puts "••••••••••••••••••••".colorize(:light_blue)
   puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
-  puts "This is craps, dawg!"
+  puts "--Guess the total!--"
   puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
   puts "••••••••••••••••••••".colorize(:light_blue)
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
-def craps_game
-  puts "Hit 1 to lose!"
-  puts "Hit 2 to win!"
-  winlose = gets.strip.to_i
-  case winlose
-  when 1
-    @player.betloss(@bet_amount)
-    puts "-----------------"
-    puts "Sorry, you lost!!"
-    puts "-----------------"
-    menu
-  when 2
-    @player.betwin(@bet_amount)
-    puts "--------------"
-    puts "Yay! You won!!"
-    puts "--------------"
-    menu
+def guess_the_total_game
+  puts "Take a LUCKY guess!"
+  person = gets.strip
+  dice = Dice.new
+  dice.show_sum
+  if person == dice.show_sum
+    puts "^^^^^^^^^^^^^^^^^^^^"
+    puts " WINNER WINNER! CHICKEN DINNER!"
+    puts "^^^^^^^^^^^^^^^^^^^^"
+    @player.guesswin(@bet_amount)
+    bet
   else
-    puts "Invalid entry, please try again!"
-    direction
+    puts "^^^^^^^^^^^^^^^^^^^^"
+    puts "---AWWW! TOO BAD!---"
+    puts "^^^^^^^^^^^^^^^^^^^^"
+    @player.betloss(@bet_amount)
+    bet
   end
- # Make game
 end
 
 def slots
@@ -241,8 +240,8 @@ def slots_game
   @bar << @slot1.sample
   @bar1 << @slot2.sample
   @bar2 << @slot3.sample
-  puts @bar[0]
-  puts @bar1[0]
+  print @bar[0]
+  print @bar1[0]
   puts @bar2[0]
   if @bar[0] == @bar1[0] && @bar1[0] != @bar2[0]
     puts "------------------"
