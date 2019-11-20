@@ -152,9 +152,13 @@ def direction
 end
 
 def blackjack
-  puts "^^^^^^^^^^^^^^^^^^^^^^^^"
+  puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
+  puts "••••••••••••••••••••".colorize(:light_blue)
+  puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
   puts "This is blackjack, dawg!"
-  puts "^^^^^^^^^^^^^^^^^^^^^^^^"
+  puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
+  puts "••••••••••••••••••••".colorize(:light_blue)
+  puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
 def blackjack_game
@@ -182,9 +186,13 @@ def blackjack_game
 end
 
 def craps
-  puts "^^^^^^^^^^^^^^^^^^^^"
+  puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
+  puts "••••••••••••••••••••".colorize(:light_blue)
+  puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
   puts "This is craps, dawg!"
-  puts "^^^^^^^^^^^^^^^^^^^^"
+  puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
+  puts "••••••••••••••••••••".colorize(:light_blue)
+  puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
 def craps_game
@@ -212,9 +220,13 @@ def craps_game
 end
 
 def slots
-  puts "^^^^^^^^^^^^^^^^^^^^"
+  puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
+  puts "••••••••••••••••••••".colorize(:light_blue)
+  puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
   puts "This is slots, dawg!"
-  puts "^^^^^^^^^^^^^^^^^^^^"
+  puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
+  puts "••••••••••••••••••••".colorize(:light_blue)
+  puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
 def slots_game
