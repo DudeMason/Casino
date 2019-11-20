@@ -1,6 +1,6 @@
 require 'colorize'
 require 'pry'
-
+require_relative 'dice'
 # dice
 # roulette
 
@@ -39,6 +39,7 @@ end
 #CLASS
 
 @gamblers = []
+@dice = Dice.new
 
 def intro
   puts "----------------------"
@@ -72,7 +73,7 @@ def menu
   @player.moneycheck
   puts "-------------------"
   puts "What would you like to do?"
-  puts "1) Play Blackjack!"
+  puts "1) Play High/Low!"
   puts "2) Guess-the-Total!"
   puts "3) Play Slots!"
   puts "4) Change user"
@@ -81,7 +82,7 @@ def menu
   @choice = gets.strip.to_i
  case @choice
  when 1
-   blackjack
+   highlow
  when 2
    guess_the_total
  when 3
@@ -144,7 +145,7 @@ end
 
 def direction
   if @choice == 1
-    blackjack_game
+    highlow_game
   elsif @choice == 2
     guess_the_total_game
   elsif @choice == 3
@@ -154,7 +155,7 @@ def direction
   end
 end
 
-def blackjack
+def highlow
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   puts "••••••••••••••••••••".colorize(:light_blue)
   puts "^^^^^^^^^^^^^^^^^^^^".colorize(:blue)
@@ -164,7 +165,7 @@ def blackjack
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
-def blackjack_game
+def highlow_game
   puts "Hit 1 to lose!"
   puts "Hit 2 to win!"
   winlose = gets.strip.to_i
@@ -200,20 +201,42 @@ def guess_the_total
 end
 def guess_the_total_game
   puts "Take a LUCKY guess!"
-  person = gets.strip
-  dice = Dice.new
-  dice.show_sum
-  if person == dice.show_sum
+  lucky = gets.strip.to_i
+  @dice.show_dice
+  if lucky == 0
+    puts "----------------------------------"
+    puts "You have to guess a number, silly!"
+    @dice.roll
+    bet
+  elsif lucky > 12
+    puts "-------------------------------"
+    puts "You can't guess higher than 12!"
+    @dice.roll
+    bet
+  elsif lucky < 2
+    puts "-------------------------------------"
+    puts "You can't guess less than two, dummy!"
+    @dice.roll
+    bet
+  elsif lucky == @dice.guess
     puts "^^^^^^^^^^^^^^^^^^^^"
     puts " WINNER WINNER! CHICKEN DINNER!"
     puts "^^^^^^^^^^^^^^^^^^^^"
     @player.guesswin(@bet_amount)
+    @dice.roll
     bet
-  else
+  elsif lucky != @dice.guess
     puts "^^^^^^^^^^^^^^^^^^^^"
     puts "---AWWW! TOO BAD!---"
     puts "^^^^^^^^^^^^^^^^^^^^"
     @player.betloss(@bet_amount)
+    @dice.roll
+    bet
+  else
+    puts "---------------------------"
+    puts "Oops! Something went wrong!"
+    puts "---------------------------"
+    @dice.roll
     bet
   end
 end
