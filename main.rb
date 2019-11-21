@@ -337,7 +337,7 @@ end
 def user_menu
   puts "--------------------------"
   puts "What would you like to do?"
-  puts "1) Change User"
+  puts "1) Add User"
   puts "2) Edit User"
   puts "3) Delete User"
   puts "4) Return to Menu"
@@ -371,10 +371,10 @@ def user_menu
       input2 = gets.strip.capitalize
       @gamblers.each {|person|
       if input2 == person.name
-        person.die
-        puts "---------------"
-        puts "-User deleted!-"
-        puts "---------------"
+        @gamblers.delete(person)
+        puts "•••••••••••••••"
+        puts "•User deleted!•"
+        puts "•••••••••••••••"
         user_menu
       else
         puts "-----------------------"
@@ -388,10 +388,10 @@ def user_menu
       input2 = gets.strip.capitalize
       @gamblers.each {|person|
       if input2 == person.name
-        person.die
-        puts "---------------"
-        puts "-User deleted!-"
-        puts "---------------"
+        @gamblers.delete(person)
+        puts "•••••••••••••••"
+        puts "•User deleted!•"
+        puts "•••••••••••••••"
         intro
       else
         puts "-----------------------"
@@ -440,24 +440,30 @@ def edit_user
   input = gets.strip.to_i
   case input
   when 0
+    puts "-----------------------------------"
     puts "Only menu option entries will work."
+    edit_user
   when 1
     puts "How much money would you like to add?"
     money = gets.strip.to_i
       if money == 0
+        puts "------------------------------"
         puts "Must be at least $1 or higher!"
         edit_user
       elsif money >= 1000
+        puts "-------------------"
         puts "Dayummm!! You rich!"
         @edit.moneyadd(money)
         @edit.moneycheck
         user_menu
       elsif money >= 1
+        puts "------------"
         puts "Money Added!"
         @edit.moneyadd(money)
         @edit.moneycheck
         user_menu
       else
+        puts "----------------------"
         puts "Something went wrong!!"
         edit_user
       end
@@ -465,13 +471,16 @@ def edit_user
       puts "Type the new name."
       name = gets.strip.capitalize
       if name.to_i >= 1
+        puts "--------------------------------"
         puts "You should probably use letters."
         edit_user
       elsif name.to_i == "0"
+        puts "--------------------------------"
         puts "You should probably use letters."
         edit_user
       else
         @edit.name = name
+        puts "--------------"
         puts "Name changed!!"
         user_menu
       end

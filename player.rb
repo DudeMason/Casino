@@ -14,9 +14,6 @@ class Player
   def bethalf(number)
     @money -= (number.to_i / 2)
   end
-  def betwin(number)
-    @money += (number.to_i * 2) #I have no idea how gamble winnings work
-  end
   def guesswin(number)
     @money += (number.to_i * 4)
   end
@@ -30,10 +27,9 @@ class Player
     @money += (number.to_i * 1.5)
   end
   def list
-    puts " #{@name}"
-  end
-  def die
-    remove_instance_variable(:@name)
+    puts "----------"
+    puts "• #{@name}"
+    puts "----------"
   end
   def welcome
     puts "-------------------"
