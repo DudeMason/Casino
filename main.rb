@@ -15,15 +15,19 @@ class Player
     @name = name
     @money = money
   end
+
   def moneycheck
     puts "--You have $#{@money}!--"
   end
+
   def betloss(number)
     @money -= number.to_i
   end
+
   def bethalf(number)
     @money -= (number.to_i / 2)
   end
+
   def betwin(number)
     @money += (number.to_i * 2) #I have no idea how gamble winnings work
   end
@@ -33,6 +37,7 @@ class Player
   def slotwin(number)
     @money += (number.to_i * 10)
   end
+
   def welcome
     puts "-------------------"
     puts "--WELCOME #{@name.upcase}!--"
@@ -201,6 +206,7 @@ def guess_the_total
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
+
 def guess_the_total_game
   puts "Take a LUCKY guess!"
   lucky = gets.strip.to_i
@@ -240,6 +246,75 @@ def guess_the_total_game
     puts "---------------------------"
     @dice.roll
     bet
+  endrequire 'colorize'
+  require 'pry'
+  require_relative 'dice'
+  # dice
+  # roulette
+  
+  # CLASS
+  class Player
+    attr_accessor :name, :money
+  
+    def initialize(name, money)
+      @name = name
+      @money = money
+    end
+    def moneycheck
+      puts "--You have $#{@money}!--"
+    end
+    def betloss(number)
+      @money -= number.to_i
+    end
+    def bethalf(number)
+      @money -= (number.to_i / 2)
+    end
+    def betwin(number)
+      @money += (number.to_i * 2) #I have no idea how gamble winnings work
+    end
+    def guesswin(number)
+      @money += (number.to_i * 4)
+    end
+    def slotwin(number)
+      @money += (number.to_i * 10)
+    end
+    def welcome
+      puts "-------------------"
+      puts "--WELCOME #{@name.upcase}!--"
+      puts "-------------------"
+    end
+  end
+  #CLASS
+  
+  @gamblers = []
+  @dice = Dice.new
+  
+  def intro
+    puts "----------------------"
+    puts "Welcome to the Casino!"
+    puts "What is your name?"
+    @player = gets.strip.capitalize
+    depositmoney
+  end
+  def depositmoney
+    puts "How much would you like to deposit?"
+    deposit = gets.strip.to_i
+    if deposit == 0
+      puts "---------------------------------"
+      puts "You can only deposit money, silly!"
+      puts "---------------------------------"
+      depositmoney
+    elsif deposit < 5
+      puts "-----------------------------------------"
+      puts "You'll need at least $5 to play any game."
+      puts "-----------------------------------------"
+      depositmoney
+    elsif deposit >= 5
+    @player = Player.new(@player, deposit)
+    @gamblers << @player
+    @player.welcome
+    menu
+    end
   end
 end
 
@@ -253,6 +328,7 @@ def slots
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
+
 def slots_game
   puts "Hit enter to pull the lever!"
   lever = gets.strip
