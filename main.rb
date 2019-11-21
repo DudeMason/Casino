@@ -48,6 +48,7 @@ def intro
   @player = gets.strip.capitalize
   depositmoney
 end
+
 def depositmoney
   puts "How much would you like to deposit?"
   deposit = gets.strip.to_i
@@ -165,6 +166,7 @@ def highlow
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
+
 def highlow_game
   puts "Hit 1 to lose!"
   puts "Hit 2 to win!"
@@ -199,6 +201,7 @@ def guess_the_total
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
+
 def guess_the_total_game
   puts "Take a LUCKY guess!"
   lucky = gets.strip.to_i
@@ -251,6 +254,7 @@ def slots
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
+
 def slots_game
   puts "Hit enter to pull the lever!"
   lever = gets.strip
