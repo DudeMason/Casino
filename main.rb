@@ -1,7 +1,7 @@
 require 'colorize'
 require 'pry'
 require_relative 'dice'
-# dice
+
 # roulette
 
 # CLASS
@@ -39,7 +39,7 @@ end
 #CLASS
 
 @gamblers = []
-@dice = Dice.new
+@die = Dice.new
 
 def intro
   puts "----------------------"
@@ -202,41 +202,41 @@ end
 def guess_the_total_game
   puts "Take a LUCKY guess!"
   lucky = gets.strip.to_i
-  @dice.show_dice
+  @die.show_dice
   if lucky == 0
     puts "----------------------------------"
     puts "You have to guess a number, silly!"
-    @dice.roll
+    @die.roll
     bet
   elsif lucky > 12
     puts "-------------------------------"
     puts "You can't guess higher than 12!"
-    @dice.roll
+    @die.roll
     bet
   elsif lucky < 2
     puts "-------------------------------------"
     puts "You can't guess less than two, dummy!"
-    @dice.roll
+    @die.roll
     bet
-  elsif lucky == @dice.guess
+  elsif lucky == @die.guess
     puts "^^^^^^^^^^^^^^^^^^^^"
     puts " WINNER WINNER! CHICKEN DINNER!"
     puts "^^^^^^^^^^^^^^^^^^^^"
     @player.guesswin(@bet_amount)
-    @dice.roll
+    @die.roll
     bet
-  elsif lucky != @dice.guess
+  elsif lucky != @die.guess
     puts "^^^^^^^^^^^^^^^^^^^^"
     puts "---AWWW! TOO BAD!---"
     puts "^^^^^^^^^^^^^^^^^^^^"
     @player.betloss(@bet_amount)
-    @dice.roll
+    @die.roll
     bet
   else
     puts "---------------------------"
     puts "Oops! Something went wrong!"
     puts "---------------------------"
-    @dice.roll
+    @die.roll
     bet
   end
 end
