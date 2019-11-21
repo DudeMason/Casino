@@ -1,10 +1,7 @@
 require 'colorize'
 require 'pry'
 require_relative 'dice'
-# dice
-# roulette
 
-# CLASS
 class Player
   attr_accessor :name, :money
 
@@ -12,24 +9,31 @@ class Player
     @name = name
     @money = money
   end
+
   def moneycheck
     puts "--You have $#{@money}!--"
   end
+
   def betloss(number)
     @money -= number.to_i
   end
+
   def bethalf(number)
     @money -= (number.to_i / 2)
   end
+
   def betwin(number)
     @money += (number.to_i * 2) #I have no idea how gamble winnings work
   end
+
   def guesswin(number)
     @money += (number.to_i * 4)
   end
+
   def slotwin(number)
     @money += (number.to_i * 10)
   end
+
   def welcome
     puts "-------------------"
     puts "--WELCOME #{@name.upcase}!--"
@@ -39,7 +43,7 @@ end
 #CLASS
 
 @gamblers = []
-@dice = Dice.new
+@die = Dice.new
 
 def intro
   puts "----------------------"
@@ -165,6 +169,7 @@ def highlow
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
+
 def highlow_game
   puts "Hit 1 to lose!"
   puts "Hit 2 to win!"
@@ -199,44 +204,45 @@ def guess_the_total
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
+
 def guess_the_total_game
   puts "Take a LUCKY guess!"
   lucky = gets.strip.to_i
-  @dice.show_dice
+  @die.show_dice
   if lucky == 0
     puts "----------------------------------"
     puts "You have to guess a number, silly!"
-    @dice.roll
+    @die.roll
     bet
   elsif lucky > 12
     puts "-------------------------------"
     puts "You can't guess higher than 12!"
-    @dice.roll
+    @die.roll
     bet
   elsif lucky < 2
     puts "-------------------------------------"
     puts "You can't guess less than two, dummy!"
-    @dice.roll
+    @die.roll
     bet
-  elsif lucky == @dice.guess
+  elsif lucky == @die.guess
     puts "^^^^^^^^^^^^^^^^^^^^"
     puts " WINNER WINNER! CHICKEN DINNER!"
     puts "^^^^^^^^^^^^^^^^^^^^"
     @player.guesswin(@bet_amount)
-    @dice.roll
+    @die.roll
     bet
-  elsif lucky != @dice.guess
+  elsif lucky != @die.guess
     puts "^^^^^^^^^^^^^^^^^^^^"
     puts "---AWWW! TOO BAD!---"
     puts "^^^^^^^^^^^^^^^^^^^^"
     @player.betloss(@bet_amount)
-    @dice.roll
+    @die.roll
     bet
   else
     puts "---------------------------"
     puts "Oops! Something went wrong!"
     puts "---------------------------"
-    @dice.roll
+    @die.roll
     bet
   end
 end
@@ -251,6 +257,7 @@ def slots
   puts "§§§§§§§§§§§§§§§§§§§§".colorize(:red)
   bet
 end
+
 def slots_game
   puts "Hit enter to pull the lever!"
   lever = gets.strip
@@ -311,6 +318,7 @@ def user_change
     puts "Who will be playing next?"
     puts "-------------------------"
     @name = gets.strip.capitalize
+
   if @name == @player.name
     puts "------------------------------"
     puts "You're already playing, silly!"
@@ -333,5 +341,6 @@ def exit
   puts "--SEE YOU SOON!!--"
   puts "------------------"
 end
+
 
 intro
